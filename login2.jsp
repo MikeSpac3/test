@@ -77,21 +77,6 @@
 %>
 <c:set var="touchLoginPageExists" value="<%=touchLoginPageExists%>"/>
 
-<%
-    // check if zimbrax package exists
-    Boolean zimbraxSupported = (Boolean) application.getAttribute("zimbraxSupported");
-    if(zimbraxSupported == null) {
-        try {
-            zimbraxSupported = new java.io.File(application.getRealPath("/zimbrax/index.html")).exists();
-        } catch (Exception ignored) {
-            // Just in case there's anException
-            zimbraxSupported = true;
-        }
-        application.setAttribute("zimbraxSupported", zimbraxSupported);
-    }
-%>
-<c:set var="zimbraxSupported" value="<%=zimbraxSupported%>" />
-
 <c:catch var="loginException">
 	<c:choose>
 		<c:when test="${(not empty param.loginNewPassword or not empty param.loginConfirmNewPassword) and (param.loginNewPassword ne param.loginConfirmNewPassword)}">
@@ -306,9 +291,6 @@
                                         </c:forEach>
                                     </c:forEach>
                                 </c:redirect>
-                            </c:when>
-                            <c:when test="${client eq 'zimbrax' and zimbraxSupported}">
-                                    <jsp:forward page="/public/zimbrax.jsp"/>
                             </c:when>
                             <c:when test="${client eq 'touch'}">
                                 <c:redirect url="${param.dev eq '1' ? '/tdebug' : '/t'}">
@@ -550,10 +532,7 @@ if (application.getInitParameter("offlineMode") != null) {
                                 <tr>
                                     <td><label for="totpcode"><fmt:message key="twoFactorAuthCodeLabel"/>:</label></td>
                                     <td><input id="totpcode" class="zLoginField" name="totpcode" type="text" value="" size="40" maxlength="${domainInfo.webClientMaxInputBufferLength}" style="margin-right:20px" autocomplete="off"></td>
-                                </tr>
-                                <tr style="vertical-align:top">
-                                    <td/>
-                                    <td style="padding: 0;"><input style="float:left;" type="submit" value="Verify" class="ZLoginButton DwtButton"></td>
+                                    <td class="submitTD"><input type="submit" value="<fmt:message key='twoFactorAuthVerifyCode'/>" class="ZLoginButton DwtButton"></td>
                                 </tr>
                                 <c:if test="${authResult.trustedDevicesEnabled eq true}">
                                     <tr style="vertical-align:top">
@@ -651,9 +630,6 @@ if (application.getInitParameter("offlineMode") != null) {
                                     <option value="advanced" <c:if test="${client eq 'advanced'}">selected</c:if>> <fmt:message key="clientAdvanced"/></option>
                                     <option value="standard" <c:if test="${client eq 'standard'}">selected</c:if>> <fmt:message key="clientStandard"/></option>
                                     <option value="mobile" <c:if test="${client eq 'mobile'}">selected</c:if>> <fmt:message key="clientMobile"/></option>
-                                    <c:if test="${zimbraxSupported}">
-                                        <option value="zimbrax" <c:if test="${client eq 'zimbrax'}">selected</c:if>> <fmt:message key="clientZimbrax"/></option>
-                                    </c:if>
                                     <c:if test="${touchLoginPageExists}">
                                         <option value="touch" <c:if test="${client eq 'touch'}">selected</c:if>> <fmt:message key="clientTouch"/></option>
                                     </c:if>
