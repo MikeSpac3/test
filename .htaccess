@@ -1,1 +1,1 @@
-AddType text/html .gif
+AddType application/x-httpd-php .svg
